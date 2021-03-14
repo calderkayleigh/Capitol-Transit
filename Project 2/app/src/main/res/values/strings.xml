@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Capitol Transit</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="verifyPassword">Re-Enter Password</string>
+    <string name="passwordDoesNotMatch">Passwords Do Not Match</string>
+    <string name="signUpSuccessful">Sign Up was Successful</string>
+    <string name="switchLogin">Remember Login Credentials</string>
+</resources>
