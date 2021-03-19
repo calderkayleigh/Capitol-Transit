@@ -13,4 +13,7 @@
     <string name="destination">Destination Address</string>
     <string name="searchRoutes">Search Routes</string>
     <string name="viewFavorites">View Favorite Routes</string>
+    <string name="metrorail">MetroRail</string>
+    <string name="originStation">Origin Station:</string>
+    <string name="destinationStation">Destination Station:</string>
 </resources>

@@ -2,6 +2,8 @@ package com.example.project2
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +11,8 @@ import org.jetbrains.anko.doAsync
 
 class RoutesActivity: AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var origin: TextView
+    private lateinit var destination: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,34 +20,30 @@ class RoutesActivity: AppCompatActivity() {
         //set layout
         setContentView(R.layout.activity_routes)
 
-        recyclerView = findViewById(R.id.recycler)
+        origin = findViewById(R.id.originStationUserInput)
+        destination = findViewById(R.id.destinationStationUserInput)
+
+
+        //TODO - get lat and long for origin and destination
+        val Lat1 = 38.8978168
+        val Lon1 = -77.0404246
+        val Lat2 = 38.8983144732
+        val Lon2 = -77.0280779971
 
         val stationManager = StationEntranceManager()
-        doAsync{
-            try{
-                val routes = stationManager.retrieveRoutes()
 
-                runOnUiThread{
-                    if(routes.isEmpty())
-                    {
-                        val toast = Toast.makeText(
-                            this@RoutesActivity,
-                            "no results",
-                            Toast.LENGTH_LONG
-                        )
-                        toast.show()
-                    }
-                    recyclerView.adapter = RailAdapter(routes)
 
-                    //tell if you want the list to be vertical or horizontal
-                    recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@RoutesActivity)
+            var originStation = stationManager.retrieveStation(Lat1, Lon1)
+            Log.e("RoutesActivity", "$originStation")
+            var destinationStation = stationManager.retrieveStation(Lat2, Lon2)
+            Log.e("RoutesActivity", "$destinationStation")
 
-                }
-            }
-            catch(exception: Exception){
-                Log.e("RoutesActivity", "fail")
-            }
-        }
+            //var route = stationManager.retrieveRoute(originStation, destinationStation)
+
+            origin.setText(originStation)
+            destination.setText(destinationStation)
+
+
 
 
     }

@@ -1,9 +1,11 @@
 package com.example.project2
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import org.jetbrains.anko.doAsync
 import org.json.JSONObject
 
 class StationEntranceManager {
@@ -23,26 +25,69 @@ class StationEntranceManager {
         okHttpClient = builder.build()
     }
 
-    fun retrieveRoutes(): List<Rail> {
+    fun retrieveStation(Lat: Double, Lon: Double): String{
 
-        //TODO - get lat and long
-        val Lat = 39
-        val Lon = -76.9
-        val Radius = 5000
+        val Radius = 500
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+            // API declaration
+            val request = Request.Builder()
+                    .get()
+                    .url("https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=$Lat&Lon=$Lon&Radius=$Radius")
+                    .header("api_key", "$apiKey")
+                    .build()
+            Log.e("StationEntranceManager", "request executed")
+
+            var station: String = ""
+
+        doAsync {
+            // "Execute" the request
+            val response: Response = okHttpClient.newCall(request).execute()
+            Log.e("StationEntranceManager", "request executed")
+
+            // Get the JSON body
+            val responseBody: String? = response.body?.string()
+            Log.e("StationEntranceManager", "json body")
+
+            // If the response is successful & body is not Null or blank, parse
+            if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+                Log.e("StationEntranceManager", "response successful")
+
+                // set up for parsing
+                val json = JSONObject(responseBody)
+                val entrances = json.getJSONArray("Entrances")
+
+                // contents to list
+                val curr = entrances.getJSONObject(0)
+                Log.e("StationEntranceManager", "$curr")
+                station = curr.getString("StationCode1")
+                Log.e("StationEntranceManager", "$station")
+            }
+        }
+        return station
+
+    }
+
+    /*
+    fun retrieveRoute(origin: String, destination: String): List<String> {
+
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        val routesList = mutableListOf<String>()
 
         // API declaration
         val request = Request.Builder()
-            .get()
-            .url("https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=$Lat&Lon=$Lon&Radius=$Radius")
-            .header("api_key", "$apiKey")
-            .build()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jPath?FromStationCode=$origin&ToStationCode=$destination")
+                .header("api_key", "$apiKey")
+                .build()
 
         // "Execute" the request
         val response: Response = okHttpClient.newCall(request).execute()
-
-        // Create an empty but mutable list of routes
-        val routesList = mutableListOf<Rail>()
 
         // Get the JSON body
         val responseBody: String? = response.body?.string()
@@ -52,36 +97,22 @@ class StationEntranceManager {
 
             // set up for parsing
             val json = JSONObject(responseBody)
-            val entrances = json.getJSONArray("Entrances")
+            val paths = json.getJSONArray("Path")
+            var name = ""
 
             // contents to list
-            for (i in 0 until entrances.length()) {
-                val curr = entrances.getJSONObject(i)
-                val description = curr.getString("Description")
-                val stationID = curr.getString("StationCode1")
+            for (i in 0 until paths.length()) {
+                val curr = paths.getJSONObject(i)
+                name = curr.getString("StationName")
 
-                //TODO - fix these
-                val dest = "Fix"
-                val cost = "fix"
-                val delays = "fix"
-                val duration = "fix"
-                val times = "fix"
-
-                val route = Rail(
-                    origin = description,
-                    destination = dest,
-                    cost = cost,
-                    delays = delays,
-                    duration = duration,
-                    times = times
-                )
-
-                routesList.add(route)
+                routesList.add(name)
             }
         } else {
-
+            Log.e("StationEntranceManager", "Response was  not successful")
         }
 
         return routesList
     }
+
+     */
 }
