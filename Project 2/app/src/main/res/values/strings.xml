@@ -8,4 +8,9 @@
     <string name="passwordDoesNotMatch">Passwords Do Not Match</string>
     <string name="signUpSuccessful">Sign Up was Successful</string>
     <string name="switchLogin">Remember Login Credentials</string>
+    <string name="inputLocations">Input Origin and Destination Addresses</string>
+    <string name="origin">Origin Address</string>
+    <string name="destination">Destination Address</string>
+    <string name="searchRoutes">Search Routes</string>
+    <string name="viewFavorites">View Favorite Routes</string>
 </resources>

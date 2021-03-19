@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".TransitActivity"/>
+        <activity android:name=".RoutesActivity"/>
+        <activity android:name=".FavoritesActivity"/>
     </application>
 
 </manifest>
