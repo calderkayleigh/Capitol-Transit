@@ -13,6 +13,7 @@ class StationEntranceManager {
     //https://developer.wmata.com/docs/services/5476364f031f590f38092507/operations/5476364f031f5909e4fe330f?
 
     val okHttpClient: OkHttpClient
+    var station: String = ""
 
     init {
         val builder = OkHttpClient.Builder()
@@ -41,7 +42,6 @@ class StationEntranceManager {
                     .build()
             Log.e("StationEntranceManager", "request executed")
 
-            var station: String = ""
 
         doAsync {
             // "Execute" the request
@@ -65,11 +65,13 @@ class StationEntranceManager {
                 val curr = entrances.getJSONObject(0)
                 Log.e("StationEntranceManager", "$curr")
                 station = curr.getString("StationCode1")
-                Log.e("StationEntranceManager", "$station")
             }
-        }
-        return station
+            Log.e("StationEntranceManager", "Station: $station")
 
+        }
+        //TODO -- fix return. Currently returning "" since station is defined within the Async
+        Log.e("StationEntranceManager", "Station: $station")
+        return station
     }
 
     /*

@@ -32,16 +32,15 @@ class RoutesActivity: AppCompatActivity() {
 
         val stationManager = StationEntranceManager()
 
+        var originStation = stationManager.retrieveStation(Lat1, Lon1)
+        Log.e("RoutesActivity", "$originStation")
+        var destinationStation = stationManager.retrieveStation(Lat2, Lon2)
+        Log.e("RoutesActivity", "$destinationStation")
 
-            var originStation = stationManager.retrieveStation(Lat1, Lon1)
-            Log.e("RoutesActivity", "$originStation")
-            var destinationStation = stationManager.retrieveStation(Lat2, Lon2)
-            Log.e("RoutesActivity", "$destinationStation")
+        //var route = stationManager.retrieveRoute(originStation, destinationStation)
 
-            //var route = stationManager.retrieveRoute(originStation, destinationStation)
-
-            origin.setText(originStation)
-            destination.setText(destinationStation)
+        origin.text = originStation
+        destination.text = destinationStation
 
 
 
