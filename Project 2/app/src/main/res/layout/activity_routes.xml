@@ -42,12 +42,33 @@
         app:layout_constraintTop_toBottomOf="@+id/originText" />
 
     <TextView
+        android:id="@+id/destinationText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/destinationStation"
+        android:textColor="@color/purple_700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/originText" />
+
+    <TextView
+        android:id="@+id/destinationText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/destinationStation"
+        android:textColor="@color/purple_700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/originText" />
+
+    <TextView
         android:id="@+id/originStationUserInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/originText"
         app:layout_constraintTop_toBottomOf="@+id/metroRail" />
 
@@ -57,8 +78,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/destinationText"
         app:layout_constraintTop_toBottomOf="@+id/originStationUserInput" />
+
+    <TextView
+        android:id="@+id/routeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/routeHeader"
+        app:layout_constraintTop_toBottomOf="@+id/destinationText" />
+
+    <TextView
+        android:id="@+id/routeHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/root"
+        android:textColor="@color/purple_700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/destinationText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

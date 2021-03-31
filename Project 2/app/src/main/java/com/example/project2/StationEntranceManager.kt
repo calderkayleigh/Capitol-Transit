@@ -34,47 +34,38 @@ class StationEntranceManager {
         Log.e("StationEntranceManager", "before request")
 
 
-            // API declaration
-            val request = Request.Builder()
-                    .get()
-                    .url("https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=$Lat&Lon=$Lon&Radius=$Radius")
-                    .header("api_key", "$apiKey")
-                    .build()
-            Log.e("StationEntranceManager", "request executed")
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=$Lat&Lon=$Lon&Radius=$Radius")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
 
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntranceManager", "request executed")
 
-        doAsync {
-            // "Execute" the request
-            val response: Response = okHttpClient.newCall(request).execute()
-            Log.e("StationEntranceManager", "request executed")
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
 
-            // Get the JSON body
-            val responseBody: String? = response.body?.string()
-            Log.e("StationEntranceManager", "json body")
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
 
-            // If the response is successful & body is not Null or blank, parse
-            if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+            Log.e("StationEntranceManager", "response successful")
 
-                Log.e("StationEntranceManager", "response successful")
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val entrances = json.getJSONArray("Entrances")
 
-                // set up for parsing
-                val json = JSONObject(responseBody)
-                val entrances = json.getJSONArray("Entrances")
-
-                // contents to list
-                val curr = entrances.getJSONObject(0)
-                Log.e("StationEntranceManager", "$curr")
-                station = curr.getString("StationCode1")
-            }
-            Log.e("StationEntranceManager", "Station: $station")
-
+            // contents to list
+            val curr = entrances.getJSONObject(0)
+            Log.e("StationEntranceManager", "$curr")
+            station = curr.getString("StationCode1")
         }
-        //TODO -- fix return. Currently returning "" since station is defined within the Async
         Log.e("StationEntranceManager", "Station: $station")
         return station
     }
-
-    /*
     fun retrieveRoute(origin: String, destination: String): List<String> {
 
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
@@ -116,5 +107,5 @@ class StationEntranceManager {
         return routesList
     }
 
-     */
+
 }
