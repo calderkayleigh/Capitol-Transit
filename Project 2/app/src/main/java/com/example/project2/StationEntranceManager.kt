@@ -28,7 +28,8 @@ class StationEntranceManager {
 
     fun retrieveStation(Lat: Double, Lon: Double): String{
 
-        val Radius = 500
+        val Radius = 5
+        //val Radius = 10000
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
 
         Log.e("StationEntranceManager", "before request")
@@ -59,12 +60,15 @@ class StationEntranceManager {
             val entrances = json.getJSONArray("Entrances")
 
             // contents to list
-            val curr = entrances.getJSONObject(0)
-            Log.e("StationEntranceManager", "$curr")
-            station = curr.getString("StationCode1")
+            if (entrances.length() != 0){
+                val curr = entrances.getJSONObject(0)
+                station = curr.getString("StationCode1")
+                Log.e("StationEntranceManager", "Station: $station")
+                return station
+            }
         }
-        Log.e("StationEntranceManager", "Station: $station")
-        return station
+        Log.e("StationEntranceManager", "Station not found!!")
+        return "Error: Station not found"
     }
     fun retrieveRoute(origin: String, destination: String): List<String> {
 

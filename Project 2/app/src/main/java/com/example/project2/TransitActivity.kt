@@ -27,6 +27,11 @@ class TransitActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val preferences = getSharedPreferences("transit-app", Context.MODE_PRIVATE)
+        var lat1 = 0.0
+        var lon1 = 0.0
+        var lat2 = 0.0
+        var lon2 = 0.0
+
 
         setContentView(R.layout.activity_transit)
 
@@ -47,6 +52,7 @@ class TransitActivity: AppCompatActivity() {
 
             if(locationName.isNotEmpty() && locationName2.isNotEmpty())
             {
+                val intent = Intent(this, RoutesActivity::class.java)
                 doAsync {
 
                     //create geocoder
@@ -79,24 +85,26 @@ class TransitActivity: AppCompatActivity() {
                         if (firstResult.isNotEmpty()) {
                             //only get first result
                             val firstResult = firstResult.first()
-                            val lat = firstResult.latitude
-                            val long = firstResult.longitude
-                            Log.e("TransitAcivity", "First Result: $lat, $long")
+                            lat1 = firstResult.latitude
+                            lon1 = firstResult.longitude
+                            Log.e("TransitAcivity", "First Result: $lat1, $lon1")
                         }
                         if (secondResult.isNotEmpty()) {
                             //only get first result
                             val secondResult = secondResult.first()
-                            val lat = secondResult.latitude
-                            val long = secondResult.longitude
-                            Log.e("TransitAcivity", "Second Result: $lat, $long")
+                            lat2 = secondResult.latitude
+                            lon2 = secondResult.longitude
+                            Log.e("TransitAcivity", "Second Result: $lat2, $lon2")
                         }
+                        intent.putExtra("lat1", lat1.toString())
+                        intent.putExtra("lon1", lon1.toString())
+                        intent.putExtra("lat2", lat2.toString())
+                        intent.putExtra("lon2", lon2.toString())
+                        startActivity(intent)
                     }
                 }
             }
 
-            //open routes activity using an intent
-            val intent = Intent(this, RoutesActivity::class.java)
-            startActivity(intent)
         }
 
         origin.addTextChangedListener(textWatcher)

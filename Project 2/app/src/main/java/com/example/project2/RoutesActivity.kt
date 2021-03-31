@@ -25,22 +25,41 @@ class RoutesActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val intent = getIntent()
+        var lat1 = 38.8978168
+        var lon1 = -77.0404246
+        var lat2 = 38.8983144732
+        var lon2 = -77.0280779971
+
+
+        val potentialLat1 = intent.getStringExtra("lat1")
+        if (!potentialLat1.isNullOrEmpty()){
+            lat1 = potentialLat1.toDouble()
+        }
+
+        val potentialLon1 = intent.getStringExtra("lon1")
+        if (!potentialLon1.isNullOrEmpty()){
+            lon1 = potentialLon1.toDouble()
+        }
+
+        val potentialLat2 = intent.getStringExtra("lat2")
+        if (!potentialLat2.isNullOrEmpty()){
+            lat2 = potentialLat2.toDouble()
+        }
+
+        val potentialLon2 = intent.getStringExtra("lon2")
+        if (!potentialLon2.isNullOrEmpty()){
+            lon2 = potentialLon2.toDouble()
+        }
+        Log.e("RoutesAcivity", "First Result: $lat1, $lon1")
+        Log.e("RoutesAcivity", "Second Result: $lat2, $lon2")
+
         //set layout
         setContentView(R.layout.activity_routes)
 
         origin = findViewById(R.id.originStationUserInput)
         destination = findViewById(R.id.destinationStationUserInput)
         resultsText = findViewById(R.id.routeText)
-
-
-
-        //TODO - get lat and long for origin and destination
-        val Lat1 = 38.8978168
-        val Lon1 = -77.0404246
-        val Lat2 = 38.8983144732
-        val Lon2 = -77.0280779971
-
-
 
         doAsync {
             // Geocoding should be done on a background thread - it involves networking
@@ -52,14 +71,14 @@ class RoutesActivity: AppCompatActivity() {
             // "catch" clauses need to yield a valid value to assign.
 
             try {
-                originStation = stationManager.retrieveStation(Lat1, Lon1)
+                originStation = stationManager.retrieveStation(lat1, lon1)
                 Log.e("RoutesActivity", "$originStation")
             } catch (e: Exception){
                 Log.e("RoutesActivity", "Station Name API Failed", e)
             }
 
             try {
-                destinationStation = stationManager.retrieveStation(Lat2, Lon2)
+                destinationStation = stationManager.retrieveStation(lat2, lon2)
                 Log.e("RoutesActivity", "$destinationStation")
             } catch (e: Exception){
                 Log.e("RoutesActivity", "Station Name API Failed", e)
@@ -69,7 +88,7 @@ class RoutesActivity: AppCompatActivity() {
             // The UI can only be updated from the UI Thread.
             runOnUiThread {
                 // need to implement: When JSON returns empty
-                if((originStation != "") && (destinationStation != "")) {
+                if((originStation != "Error: Station not found") && (destinationStation != "Error: Station not found")) {
                     origin.text = originStation
                     destination.text = destinationStation
 
@@ -108,7 +127,8 @@ class RoutesActivity: AppCompatActivity() {
                 } else {
                     //give the user an error
                     Log.d("RoutesActivity", "No results from station entrance api!")
-
+                    val toast = Toast.makeText(this@RoutesActivity, "Dumb dumb you messed up one of your stations is wrong", Toast.LENGTH_LONG)
+                    toast.show()
                 }
 
             }
