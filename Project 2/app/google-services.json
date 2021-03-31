@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "20949522624",
+    "project_id": "capitol-transit",
+    "storage_bucket": "capitol-transit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20949522624:android:4b9f25c73c6d129ca1f525",
+        "android_client_info": {
+          "package_name": "com.example.project2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20949522624-qtmglmihrsm8850nmun8qrkg746m5i2h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz3YkFnYCtuYfDthk3Wce2dMaKPXoiOd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20949522624-qtmglmihrsm8850nmun8qrkg746m5i2h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

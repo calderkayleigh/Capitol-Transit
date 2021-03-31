@@ -1,7 +1,11 @@
 **!!PLEASE READ THE GETTING STARTED SECTION BELOW!!**
 
 # CSCI 4237 - Project 2 - BYOI
-Bring Your Own Idea!
+Note: you can only do single line travel in the current code.
+
+**Some Sample Data to Use:** 
+Start Address: 1221 S Eads Street Arlington, VA 22202 
+End Address: 1812 N Quinn Street Arlington, VA 22202
 
 ## Getting Started
 1. Clone this repo to your local machine.
