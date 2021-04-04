@@ -11,11 +11,14 @@
     <string name="inputLocations">Input Origin and Destination Addresses</string>
     <string name="origin">Origin Address</string>
     <string name="destination">Destination Address</string>
-    <string name="root">Root:</string>
+    <string name="root">Route:</string>
     <string name="searchRoutes">Search Routes</string>
     <string name="viewFavorites">View Favorite Routes</string>
     <string name="metrorail">MetroRail</string>
     <string name="originStation">Origin Station:</string>
     <string name="destinationStation">Destination Station:</string>
+    <string name="cost">Cost: </string>
+    <string name="duration">Expected Duration of Travel: </string>
+    <string name="checkbox">I am travelling during peak hours</string>
 
 </resources>

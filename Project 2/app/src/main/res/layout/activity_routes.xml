@@ -101,4 +101,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/destinationText" />
 
+    <TextView
+        android:id="@+id/expectedDurationMetro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/duration"
+        android:textColor="#673AB7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routeText" />
+
+    <TextView
+        android:id="@+id/costMetro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/cost"
+        android:textColor="#673AB7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expectedDurationMetro" />
+
+    <TextView
+        android:id="@+id/expectedDurationMetroInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/expectedDurationMetro"
+        app:layout_constraintTop_toBottomOf="@+id/routeText" />
+
+    <TextView
+        android:id="@+id/costMetroInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/costMetro"
+        app:layout_constraintTop_toBottomOf="@+id/expectedDurationMetroInput" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

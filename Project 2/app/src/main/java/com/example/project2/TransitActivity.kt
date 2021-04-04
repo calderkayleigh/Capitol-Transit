@@ -10,10 +10,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import kotlin.properties.Delegates
 
 
 class TransitActivity: AppCompatActivity() {
@@ -22,6 +24,8 @@ class TransitActivity: AppCompatActivity() {
     private lateinit var destination: EditText
     private lateinit var search: Button
     private lateinit var favorites: Button
+    private lateinit var checkBox: CheckBox
+    private var checkBoxBoolean by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +43,10 @@ class TransitActivity: AppCompatActivity() {
         destination = findViewById(R.id.destination)
         search = findViewById(R.id.searchButton)
         favorites = findViewById(R.id.favoritesButton)
+        checkBox = findViewById(R.id.checkBox)
 
         search.isEnabled = false
+        checkBoxBoolean = false
 
 
         //create on click listener for the search button
@@ -100,6 +106,8 @@ class TransitActivity: AppCompatActivity() {
                         intent.putExtra("lon1", lon1.toString())
                         intent.putExtra("lat2", lat2.toString())
                         intent.putExtra("lon2", lon2.toString())
+                        intent.putExtra("checkBoxBoolean", checkBoxBoolean)
+                        Log.e("TransitActivity", "checkbox: $checkBoxBoolean")
                         startActivity(intent)
                     }
                 }
@@ -123,5 +131,17 @@ class TransitActivity: AppCompatActivity() {
             search.setEnabled(enableButton)
         }
 
+    }
+    //used Android Developer Guide as a reference for this code: https://developer.android.com/guide/topics/ui/controls/checkbox
+    fun onCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+
+            when (view.id) {
+                R.id.checkBox -> {
+                    checkBoxBoolean = checked
+                }
+            }
+        }
     }
 }

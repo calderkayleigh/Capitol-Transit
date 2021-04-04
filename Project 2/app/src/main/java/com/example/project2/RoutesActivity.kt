@@ -16,16 +16,18 @@ class RoutesActivity: AppCompatActivity() {
 
     private lateinit var origin: TextView
     private lateinit var destination: TextView
-
     private lateinit var resultsText: TextView
-
     private lateinit var originStation: String
     private lateinit var destinationStation: String
+    private lateinit var cost: TextView
+    private lateinit var duration: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val intent = getIntent()
+
+        //test lat and lons
         var lat1 = 38.8978168
         var lon1 = -77.0404246
         var lat2 = 38.8983144732
@@ -54,12 +56,16 @@ class RoutesActivity: AppCompatActivity() {
         Log.e("RoutesAcivity", "First Result: $lat1, $lon1")
         Log.e("RoutesAcivity", "Second Result: $lat2, $lon2")
 
+        val checkBoxBoolean = intent.getBooleanExtra("checkBoxBoolean", false)
+
         //set layout
         setContentView(R.layout.activity_routes)
 
         origin = findViewById(R.id.originStationUserInput)
         destination = findViewById(R.id.destinationStationUserInput)
         resultsText = findViewById(R.id.routeText)
+        cost = findViewById(R.id.costMetroInput)
+        duration = findViewById(R.id.expectedDurationMetroInput)
 
         doAsync {
             // Geocoding should be done on a background thread - it involves networking
@@ -70,19 +76,16 @@ class RoutesActivity: AppCompatActivity() {
             // In Kotlin, you can assign the result of a try-catch block. Both the "try" and
             // "catch" clauses need to yield a valid value to assign.
 
-            try {
-                originStation = stationManager.retrieveStation(lat1, lon1)
-                Log.e("RoutesActivity", "$originStation")
-            } catch (e: Exception){
-                Log.e("RoutesActivity", "Station Name API Failed", e)
-            }
 
-            try {
-                destinationStation = stationManager.retrieveStation(lat2, lon2)
-                Log.e("RoutesActivity", "$destinationStation")
-            } catch (e: Exception){
-                Log.e("RoutesActivity", "Station Name API Failed", e)
-            }
+            originStation = stationManager.retrieveStation(lat1, lon1)
+            Log.e("RoutesActivity", "$originStation")
+
+            destinationStation = stationManager.retrieveStation(lat2, lon2)
+            Log.e("RoutesActivity", "$destinationStation")
+
+            val costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
+            val durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
+
 
             // Move back to the UI Thread now that we have some results to show.
             // The UI can only be updated from the UI Thread.
@@ -91,6 +94,8 @@ class RoutesActivity: AppCompatActivity() {
                 if((originStation != "Error: Station not found") && (destinationStation != "Error: Station not found")) {
                     origin.text = originStation
                     destination.text = destinationStation
+                    cost.text = costString + " US Dollars"
+                    duration.text = durationString + " Minutes"
 
                     doAsync {
                         val root: List<String> = try {
