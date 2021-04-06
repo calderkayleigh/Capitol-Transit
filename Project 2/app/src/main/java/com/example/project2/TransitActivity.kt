@@ -115,6 +115,11 @@ class TransitActivity: AppCompatActivity() {
 
         }
 
+        favorites.setOnClickListener {
+            val intent = Intent(this, FavoritesActivity::class.java)
+            startActivity(intent)
+        }
+
         origin.addTextChangedListener(textWatcher)
         destination.addTextChangedListener(textWatcher)
     }

@@ -72,6 +72,7 @@ class StationEntranceManager {
     }
     fun retrieveRoute(origin: String, destination: String): List<String> {
 
+
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
 
         val routesList = mutableListOf<String>()
@@ -105,6 +106,9 @@ class StationEntranceManager {
                 routesList.add(name)
             }
         } else {
+            //TODO - add code here that iterates through origin to a transfer and transfer to a destination
+            //TODO - if both are successful, return that path
+            //TODO - if one or both is unsuccessful, try the next transfer station
             Log.e("StationEntranceManager", "Response was  not successful")
         }
 
@@ -202,5 +206,6 @@ class StationEntranceManager {
         }
         return "Error: Duration not found"
     }
+
 
 }

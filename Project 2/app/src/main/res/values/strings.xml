@@ -20,5 +20,8 @@
     <string name="cost">Cost: </string>
     <string name="duration">Expected Duration of Travel: </string>
     <string name="checkbox">I am travelling during peak hours</string>
+    <string name="delays">Delays: </string>
+    <string name="trainsArriving">Trains Arriving In: </string>
+    <string name="addToFavorites">Add Route to Favorites</string>
 
 </resources>

@@ -1,9 +1,11 @@
 package com.example.project2
 
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -21,11 +23,15 @@ class RoutesActivity: AppCompatActivity() {
     private lateinit var destinationStation: String
     private lateinit var cost: TextView
     private lateinit var duration: TextView
+    private lateinit var favorites: Button
+    //private lateinit var delays: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val intent = getIntent()
+
+        val preferences = getSharedPreferences("transit-app", Context.MODE_PRIVATE)
 
         //test lat and lons
         var lat1 = 38.8978168
@@ -56,6 +62,9 @@ class RoutesActivity: AppCompatActivity() {
         Log.e("RoutesAcivity", "First Result: $lat1, $lon1")
         Log.e("RoutesAcivity", "Second Result: $lat2, $lon2")
 
+        var originName = ""
+        var destName = ""
+
         val checkBoxBoolean = intent.getBooleanExtra("checkBoxBoolean", false)
 
         //set layout
@@ -66,6 +75,7 @@ class RoutesActivity: AppCompatActivity() {
         resultsText = findViewById(R.id.routeText)
         cost = findViewById(R.id.costMetroInput)
         duration = findViewById(R.id.expectedDurationMetroInput)
+        favorites = findViewById(R.id.addToFavorites)
 
         doAsync {
             // Geocoding should be done on a background thread - it involves networking
@@ -114,9 +124,10 @@ class RoutesActivity: AppCompatActivity() {
                             if (root.isNotEmpty()) {
                                 // Potentially, we could show all results to the user to choose from,
                                 // but for our usage it's sufficient enough to just use the first result
-                                val firstResult = root.first()
                                 origin.text = root.first()
+                                originName = root.first()
                                 destination.text = root.last()
+                                destName = root.last()
 
                                 var theRoute = ""
                                 for (station in root)
@@ -137,6 +148,13 @@ class RoutesActivity: AppCompatActivity() {
                 }
 
             }
+        }
+
+        favorites.setOnClickListener {
+
+            //TODO - add station name rather than station codes
+            preferences.edit().putString("origin","$originName").apply()
+            preferences.edit().putString("destination", "$destName").apply()
         }
 
     }

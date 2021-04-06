@@ -141,4 +141,54 @@
         app:layout_constraintStart_toEndOf="@+id/costMetro"
         app:layout_constraintTop_toBottomOf="@+id/expectedDurationMetroInput" />
 
+    <TextView
+        android:id="@+id/delaysText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/delays"
+        android:textColor="#673AB7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costMetroInput" />
+
+    <TextView
+        android:id="@+id/delaysOuput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/delaysText"
+        app:layout_constraintTop_toBottomOf="@+id/costMetroInput" />
+
+    <TextView
+        android:id="@+id/arrivingTrainsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/trainsArriving"
+        android:textColor="#673AB7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delaysOuput" />
+
+    <TextView
+        android:id="@+id/arrivingTrainsOutput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/arrivingTrainsText"
+        app:layout_constraintTop_toBottomOf="@+id/delaysOuput" />
+
+    <Button
+        android:id="@+id/addToFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/addToFavorites"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arrivingTrainsOutput" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
