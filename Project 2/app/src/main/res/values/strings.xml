@@ -23,5 +23,6 @@
     <string name="delays">Delays: </string>
     <string name="trainsArriving">Trains Arriving In: </string>
     <string name="addToFavorites">Add Route to Favorites</string>
+    <string name="to">to</string>
 
 </resources>

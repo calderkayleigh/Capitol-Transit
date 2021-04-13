@@ -2,12 +2,15 @@ package com.example.project2
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class FavoritesActivity: AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+    // Create an empty but mutable list of favorites
+    var favoritesList = mutableListOf<Favorite>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,16 +19,15 @@ class FavoritesActivity: AppCompatActivity() {
         setContentView(R.layout.activity_favorites)
         recyclerView = findViewById(R.id.recyler)
 
-        // Create an empty but mutable list of favorites
-        val favoritesList = mutableListOf<Favorite>()
-
         val preferences = getSharedPreferences("transit-app", Context.MODE_PRIVATE)
-        val originStation = preferences.getString("origin", "")
-        val destStation = preferences.getString("destination", "")
-        //TODO - create the description
-        val description = "Placeholder"
+
 
         //TODO - add condition where we cannot add duplicates to the list
+        //TODO - make sure list remembers previous (potentially use string set?)
+
+        val originStation = preferences.getString("origin", "")
+        val destStation = preferences.getString("destination", "")
+        val description = preferences.getString("description", "")
 
         val favorite = Favorite(
                 originStation = originStation,
@@ -35,6 +37,10 @@ class FavoritesActivity: AppCompatActivity() {
 
         favoritesList.add(favorite)
 
+
+        var favSize = favoritesList.size
+
+        Log.e("FavoritesActivity", " list size: $favSize")
         recyclerView.adapter = FavoritesAdapter(favoritesList)
 
         //tell if you want the list to be vertical or horizontal

@@ -26,6 +26,7 @@ class RoutesActivity: AppCompatActivity() {
     private lateinit var favorites: Button
     //private lateinit var delays: TextView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,6 +65,8 @@ class RoutesActivity: AppCompatActivity() {
 
         var originName = ""
         var destName = ""
+        var costString = ""
+        var durationString = ""
 
         val checkBoxBoolean = intent.getBooleanExtra("checkBoxBoolean", false)
 
@@ -93,8 +96,8 @@ class RoutesActivity: AppCompatActivity() {
             destinationStation = stationManager.retrieveStation(lat2, lon2)
             Log.e("RoutesActivity", "$destinationStation")
 
-            val costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
-            val durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
+            costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
+            durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
 
 
             // Move back to the UI Thread now that we have some results to show.
@@ -143,7 +146,7 @@ class RoutesActivity: AppCompatActivity() {
                 } else {
                     //give the user an error
                     Log.d("RoutesActivity", "No results from station entrance api!")
-                    val toast = Toast.makeText(this@RoutesActivity, "Dumb dumb you messed up one of your stations is wrong", Toast.LENGTH_LONG)
+                    val toast = Toast.makeText(this@RoutesActivity, "One of the stations is wrong or the geocoder failed", Toast.LENGTH_LONG)
                     toast.show()
                 }
 
@@ -151,10 +154,9 @@ class RoutesActivity: AppCompatActivity() {
         }
 
         favorites.setOnClickListener {
-
-            //TODO - add station name rather than station codes
             preferences.edit().putString("origin","$originName").apply()
             preferences.edit().putString("destination", "$destName").apply()
+            preferences.edit().putString("description", "The cost to travel between these two stations is $costString dollars and it will take approximately $durationString minutes to travel.").apply()
         }
 
     }
