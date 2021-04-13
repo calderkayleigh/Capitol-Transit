@@ -25,6 +25,9 @@ class FavoritesActivity: AppCompatActivity() {
         //TODO - add condition where we cannot add duplicates to the list
         //TODO - make sure list remembers previous (potentially use string set?)
 
+        //var favCount = preferences.getInt("favCount", 1)
+        //var favCount2 = favCount + 1
+        //preferences.edit().putString("favCount","$favCount2").apply()
         val originStation = preferences.getString("origin", "")
         val destStation = preferences.getString("destination", "")
         val description = preferences.getString("description", "")

@@ -154,6 +154,8 @@ class RoutesActivity: AppCompatActivity() {
         }
 
         favorites.setOnClickListener {
+
+            //preferences.edit().putInt("favCount",1).apply()
             preferences.edit().putString("origin","$originName").apply()
             preferences.edit().putString("destination", "$destName").apply()
             preferences.edit().putString("description", "The cost to travel between these two stations is $costString dollars and it will take approximately $durationString minutes to travel.").apply()

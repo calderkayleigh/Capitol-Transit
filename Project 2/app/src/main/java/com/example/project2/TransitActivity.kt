@@ -26,6 +26,7 @@ class TransitActivity: AppCompatActivity() {
     private lateinit var favorites: Button
     private lateinit var checkBox: CheckBox
     private var checkBoxBoolean by Delegates.notNull<Boolean>()
+    private lateinit var map: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +45,10 @@ class TransitActivity: AppCompatActivity() {
         search = findViewById(R.id.searchButton)
         favorites = findViewById(R.id.favoritesButton)
         checkBox = findViewById(R.id.checkBox)
+        map = findViewById(R.id.mapButton)
 
         search.isEnabled = false
+        map.isEnabled = false
         checkBoxBoolean = false
 
 
@@ -120,6 +123,68 @@ class TransitActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
+        map.setOnClickListener {
+
+            //get user inputs
+            val locationName: String = origin.text.toString()
+            val locationName2: String = destination.text.toString()
+
+            if(locationName.isNotEmpty() && locationName2.isNotEmpty())
+            {
+                val intent = Intent(this, MapsActivity::class.java)
+                doAsync {
+
+                    //create geocoder
+                    val geocoder: Geocoder = Geocoder(this@TransitActivity)
+
+                    //get lat and long
+                    val firstResult: List<Address> = try {
+                        geocoder.getFromLocationName(
+                            locationName,
+                            10
+                        )
+                    } catch (e: Exception) {
+                        Log.e("TransitActivity", "Geocoder has Failed for first address", e)
+                        listOf<Address>()
+                    }
+
+                    //get lat and long
+                    val secondResult: List<Address> = try {
+                        geocoder.getFromLocationName(
+                            locationName2,
+                            10
+                        )
+                    } catch (e: Exception) {
+                        Log.e("TransitActivity", "Geocoder has Failed for second address", e)
+                        listOf<Address>()
+                    }
+
+                    //move to UI thread
+                    runOnUiThread {
+                        if (firstResult.isNotEmpty()) {
+                            //only get first result
+                            val firstResult = firstResult.first()
+                            lat1 = firstResult.latitude
+                            lon1 = firstResult.longitude
+                            Log.e("TransitAcivity", "First Result: $lat1, $lon1")
+                        }
+                        if (secondResult.isNotEmpty()) {
+                            //only get first result
+                            val secondResult = secondResult.first()
+                            lat2 = secondResult.latitude
+                            lon2 = secondResult.longitude
+                            Log.e("TransitAcivity", "Second Result: $lat2, $lon2")
+                        }
+                        intent.putExtra("lat1", lat1.toString())
+                        intent.putExtra("lon1", lon1.toString())
+                        intent.putExtra("lat2", lat2.toString())
+                        intent.putExtra("lon2", lon2.toString())
+                        startActivity(intent)
+                    }
+                }
+            }
+        }
+
         origin.addTextChangedListener(textWatcher)
         destination.addTextChangedListener(textWatcher)
     }
@@ -134,6 +199,7 @@ class TransitActivity: AppCompatActivity() {
             val enableButton = inputtedOrigin.isNotEmpty() && inputtedDestination.isNotEmpty()
 
             search.setEnabled(enableButton)
+            map.setEnabled(enableButton)
         }
 
     }
