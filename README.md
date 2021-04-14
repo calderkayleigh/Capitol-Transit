@@ -1,7 +1,7 @@
 **!!PLEASE READ THE GETTING STARTED SECTION BELOW!!**
 
 # CSCI 4237 - Project 2 - BYOI
-Note: you can only do single line travel in the current code.
+Note: you can only do single line travel in the current code. Working on developing a shortest path algorithm to determine how to get from line to line. 
 
 **Some Sample Data to Use:** 
 Start Address: 1221 S Eads Street Arlington, VA 22202 
@@ -17,4 +17,4 @@ End Address: 1812 N Quinn Street Arlington, VA 22202
 
 View the [Project Requirements Document](https://docs.google.com/document/d/1ipl_SjY2CtwQ144ZL5j86TuAd0xkoNSuvVfM15EZRlE/edit?usp=sharing) for full details!
 
-### Note: Working on developing a shortest path algorithm to determine how to get from line to line
+
