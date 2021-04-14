@@ -16,3 +16,5 @@ End Address: 1812 N Quinn Street Arlington, VA 22202
 5. Don't forget to branch before you create commits - you'll need to create Pull Requests for the major project deliverables.
 
 View the [Project Requirements Document](https://docs.google.com/document/d/1ipl_SjY2CtwQ144ZL5j86TuAd0xkoNSuvVfM15EZRlE/edit?usp=sharing) for full details!
+
+### Note: Working on developing a shortest path algorithm to determine how to get from line to line
