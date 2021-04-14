@@ -41,25 +41,14 @@ class RoutesActivity: AppCompatActivity() {
         var lon2 = -77.0280779971
 
 
-        val potentialLat1 = intent.getStringExtra("lat1")
-        if (!potentialLat1.isNullOrEmpty()){
-            lat1 = potentialLat1.toDouble()
-        }
+        lat1 = intent.getStringExtra("lat1")?.toDouble()!!
 
-        val potentialLon1 = intent.getStringExtra("lon1")
-        if (!potentialLon1.isNullOrEmpty()){
-            lon1 = potentialLon1.toDouble()
-        }
+        lon1 = intent.getStringExtra("lon1")?.toDouble()!!
 
-        val potentialLat2 = intent.getStringExtra("lat2")
-        if (!potentialLat2.isNullOrEmpty()){
-            lat2 = potentialLat2.toDouble()
-        }
+        lat2 = intent.getStringExtra("lat2")?.toDouble()!!
 
-        val potentialLon2 = intent.getStringExtra("lon2")
-        if (!potentialLon2.isNullOrEmpty()){
-            lon2 = potentialLon2.toDouble()
-        }
+        lon2 = intent.getStringExtra("lon2")?.toDouble()!!
+
         Log.e("RoutesAcivity", "First Result: $lat1, $lon1")
         Log.e("RoutesAcivity", "Second Result: $lat2, $lon2")
 
@@ -162,11 +151,29 @@ class RoutesActivity: AppCompatActivity() {
                     preferences.edit().putString("origin$i","$originName").apply()
                     preferences.edit().putString("destination$i", "$destName").apply()
                     preferences.edit().putString("description$i", "The cost to travel between these two stations is $costString dollars and it will take approximately $durationString minutes to travel.").apply()
+
+                    runOnUiThread{
+                        val toast = Toast.makeText(
+                                this@RoutesActivity,
+                                "Added $originName to $destName to Favorites",
+                                Toast.LENGTH_LONG
+                        )
+                        toast.show()
+                    }
                     return@setOnClickListener
+                }
+                else if(i == 10 && !preferences.getString("origin$i", "").isNullOrEmpty())
+                {
+                    runOnUiThread{
+                        val toast = Toast.makeText(
+                                this@RoutesActivity,
+                                "Failed to add $originName to $destName to favorites. The maximum number of favorites is 10.",
+                                Toast.LENGTH_LONG
+                        )
+                        toast.show()
+                    }
                 }
             }
         }
-
-
     }
 }
