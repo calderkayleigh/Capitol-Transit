@@ -88,50 +88,65 @@ class RoutesActivity: AppCompatActivity() {
             costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
             durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
 
+            val findRoute = connectionAlgorithm()
+            val originStationName = stationManager.retrieveStationName(originStation)
+            val destinationStationName = stationManager.retrieveStationName(destinationStation)
+
 
             // Move back to the UI Thread now that we have some results to show.
             // The UI can only be updated from the UI Thread.
             runOnUiThread {
                 // need to implement: When JSON returns empty
-                if((originStation != "Error: Station not found") && (destinationStation != "Error: Station not found")) {
-                    origin.text = originStation
-                    destination.text = destinationStation
+                if((originStationName != "Error: Station not found") && (destinationStation != "Error: Station not found")) {
+                    origin.text = originStationName
+                    destination.text = destinationStationName
                     cost.text = costString + " US Dollars"
                     duration.text = durationString + " Minutes"
 
-                    doAsync {
-                        val root: List<String> = try {
-                            stationManager.retrieveRoute(
-                                    originStation,
-                                    destinationStation
-                            )
-                        } catch (e: Exception) {
-                            Log.e("Routes Activity", "Path api failed", e)
-                            listOf<String>()
-                        }
 
-                        // Move back to the UI Thread now that we have some results to show.
-                        // The UI can only be updated from the UI Thread.
-                        runOnUiThread {
-                            if (root.isNotEmpty()) {
-                                // Potentially, we could show all results to the user to choose from,
-                                // but for our usage it's sufficient enough to just use the first result
-                                origin.text = root.first()
-                                originName = root.first()
-                                destination.text = root.last()
-                                destName = root.last()
+                    Log.e("RoutesActivity", "Origin passed: $originStationName, Destination passed: $destinationStationName,")
+                    val originToPass: String = originStationName
+                    val destinationToPass: String = destinationStationName
+                    val root = findRoute.determinePath(originToPass, destinationToPass).split(";")
+                    var theRoot = "Algorithm is not working when passing string\n from kotlin to java.. \nInvestigating now"
+//
 
-                                var theRoute = ""
-                                for (station in root)
-                                    theRoute = theRoute + station + "\n"
-                                resultsText.text = theRoute
+                    resultsText.text = theRoot
 
-                            } else {
-                                Log.d("Routes Activity", "Path api results failed!")
+//                    doAsync {
+//                        val root: List<String> = try {
+//                            stationManager.retrieveRoute(
+//                                    originStation,
+//                                    destinationStation
+//                            )
+//                        } catch (e: Exception) {
+//                            Log.e("Routes Activity", "Path api failed", e)
+//                            listOf<String>()
+//                        }
+//
+//                        // Move back to the UI Thread now that we have some results to show.
+//                        // The UI can only be updated from the UI Thread.
+//                        runOnUiThread {
+//                            if (root.isNotEmpty()) {
+//                                // Potentially, we could show all results to the user to choose from,
+//                                // but for our usage it's sufficient enough to just use the first result
+//                                origin.text = root.first()
+//                                originName = root.first()
+//                                destination.text = root.last()
+//                                destName = root.last()
+//
+//                                var theRoute = ""
+//                                for (station in root)
+//                                    theRoute = theRoute + station + "\n"
+//                                resultsText.text = theRoute
+//
+//                            } else {
+//                                Log.d("Routes Activity", "Path api results failed!")
+//
+//                            }
+//                        }
+//                    }
 
-                            }
-                        }
-                    }
                 } else {
                     //give the user an error
                     Log.d("RoutesActivity", "No results from station entrance api!")
