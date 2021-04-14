@@ -206,6 +206,46 @@ class StationEntranceManager {
         }
         return "Error: Duration not found"
     }
+    fun retrieveStationName(stationCode: String): String{
+
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jStationInfo?StationCode=$stationCode")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
+
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntaneManager", "request executed")
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val result = json.getString("Name")
+
+            // contents to list
+            if (result.isNotEmpty()){
+                Log.e("StationNameManager", "Station: $station")
+                return result
+            }
+        }
+        Log.e("StationNameManager", "Station not found!!")
+        return "Error: Station not found"
+    }
 
 
 }
