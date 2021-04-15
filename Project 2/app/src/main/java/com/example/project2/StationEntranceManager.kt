@@ -106,9 +106,7 @@ class StationEntranceManager {
                 routesList.add(name)
             }
         } else {
-            //TODO - add code here that iterates through origin to a transfer and transfer to a destination
-            //TODO - if both are successful, return that path
-            //TODO - if one or both is unsuccessful, try the next transfer station
+            //TODO - make RoutesActivity point to the shortest path algorithm rather than this method
             Log.e("StationEntranceManager", "Response was  not successful")
         }
 
