@@ -1,5 +1,6 @@
 package com.example.project2
 
+import android.content.Context
 import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -28,8 +29,7 @@ class StationEntranceManager {
 
     fun retrieveStation(Lat: Double, Lon: Double): String{
 
-        val Radius = 5
-        //val Radius = 10000
+        val Radius = 10000
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
 
         Log.e("StationEntranceManager", "before request")
@@ -72,6 +72,7 @@ class StationEntranceManager {
     }
     fun retrieveRoute(origin: String, destination: String): List<String> {
 
+
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
 
         val routesList = mutableListOf<String>()
@@ -105,10 +106,143 @@ class StationEntranceManager {
                 routesList.add(name)
             }
         } else {
+            //TODO - make RoutesActivity point to the shortest path algorithm rather than this method
             Log.e("StationEntranceManager", "Response was  not successful")
         }
 
         return routesList
+    }
+
+    fun retrieveMetroCost(origin: String, destination: String, checkBoxBoolean: Boolean): String {
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+        var timeOfDay = ""
+
+        if(checkBoxBoolean == false)
+        {
+            timeOfDay = "OffPeakTime"
+        }
+        else{
+            timeOfDay = "PeakTime"
+        }
+
+        var cost = 0.0
+
+        // API declaration
+        val request = Request.Builder()
+            .get()
+            .url("https://api.wmata.com/Rail.svc/json/jSrcStationToDstStationInfo?FromStationCode=$origin&ToStationCode=$destination")
+            .header("api_key", "$apiKey")
+            .build()
+
+        // "Execute" the request
+        val response: Response = okHttpClient.newCall(request).execute()
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val stationInfo = json.getJSONArray("StationToStationInfos")
+            // contents to list
+            if (stationInfo.length() != 0){
+                val curr = stationInfo.getJSONObject(0)
+                val costArray = curr.getJSONObject("RailFare")
+                if(costArray.length() != 0)
+                {
+                    cost = costArray.getDouble("$timeOfDay")
+                    Log.e("StationEntranceManager", "Cost: $cost")
+                    return cost.toString()
+                }
+                else{
+                    Log.e("StationEntranceManager", "Cost response was  not successful")
+                    return "Error: Cost not found"
+                }
+            }
+
+        } else {
+            Log.e("StationEntranceManager", "Cost response was  not successful")
+        }
+        return "Error: Cost not found"
+    }
+
+    fun retrieveMetroDuration(origin: String, destination: String): String{
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+        var duration = 0.0
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jSrcStationToDstStationInfo?FromStationCode=$origin&ToStationCode=$destination")
+                .header("api_key", "$apiKey")
+                .build()
+
+        // "Execute" the request
+        val response: Response = okHttpClient.newCall(request).execute()
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val stationInfo = json.getJSONArray("StationToStationInfos")
+            // contents to list
+            if (stationInfo.length() != 0){
+                val curr = stationInfo.getJSONObject(0)
+                var duration = curr.getInt("RailTime")
+                Log.e("StationEntranceManager", "Duration: $duration")
+                return duration.toString()
+            }
+
+        } else {
+            Log.e("StationEntranceManager", "Duration response was  not successful")
+        }
+        return "Error: Duration not found"
+    }
+    fun retrieveStationName(stationCode: String): String{
+
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jStationInfo?StationCode=$stationCode")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
+
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntaneManager", "request executed")
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val result = json.getString("Name")
+
+            // contents to list
+            if (result.isNotEmpty()){
+                Log.e("StationNameManager", "Station: $station")
+                return result
+            }
+        }
+        Log.e("StationNameManager", "Station not found!!")
+        return "Error: Station not found"
     }
 
 

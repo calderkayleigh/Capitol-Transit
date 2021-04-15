@@ -10,10 +10,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import kotlin.properties.Delegates
 
 
 class TransitActivity: AppCompatActivity() {
@@ -22,6 +24,9 @@ class TransitActivity: AppCompatActivity() {
     private lateinit var destination: EditText
     private lateinit var search: Button
     private lateinit var favorites: Button
+    private lateinit var checkBox: CheckBox
+    private var checkBoxBoolean by Delegates.notNull<Boolean>()
+    private lateinit var map: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +44,12 @@ class TransitActivity: AppCompatActivity() {
         destination = findViewById(R.id.destination)
         search = findViewById(R.id.searchButton)
         favorites = findViewById(R.id.favoritesButton)
+        checkBox = findViewById(R.id.checkBox)
+        map = findViewById(R.id.mapButton)
 
         search.isEnabled = false
+        map.isEnabled = false
+        checkBoxBoolean = false
 
 
         //create on click listener for the search button
@@ -100,11 +109,80 @@ class TransitActivity: AppCompatActivity() {
                         intent.putExtra("lon1", lon1.toString())
                         intent.putExtra("lat2", lat2.toString())
                         intent.putExtra("lon2", lon2.toString())
+                        intent.putExtra("checkBoxBoolean", checkBoxBoolean)
+                        Log.e("TransitActivity", "checkbox: $checkBoxBoolean")
                         startActivity(intent)
                     }
                 }
             }
 
+        }
+
+        favorites.setOnClickListener {
+            val intent = Intent(this, FavoritesActivity::class.java)
+            startActivity(intent)
+        }
+
+        map.setOnClickListener {
+
+            //get user inputs
+            val locationName: String = origin.text.toString()
+            val locationName2: String = destination.text.toString()
+
+            if(locationName.isNotEmpty() && locationName2.isNotEmpty())
+            {
+                val intent = Intent(this, MapsActivity::class.java)
+                doAsync {
+
+                    //create geocoder
+                    val geocoder: Geocoder = Geocoder(this@TransitActivity)
+
+                    //get lat and long
+                    val firstResult: List<Address> = try {
+                        geocoder.getFromLocationName(
+                            locationName,
+                            10
+                        )
+                    } catch (e: Exception) {
+                        Log.e("TransitActivity", "Geocoder has Failed for first address", e)
+                        listOf<Address>()
+                    }
+
+                    //get lat and long
+                    val secondResult: List<Address> = try {
+                        geocoder.getFromLocationName(
+                            locationName2,
+                            10
+                        )
+                    } catch (e: Exception) {
+                        Log.e("TransitActivity", "Geocoder has Failed for second address", e)
+                        listOf<Address>()
+                    }
+
+                    //move to UI thread
+                    runOnUiThread {
+                        if (firstResult.isNotEmpty()) {
+                            //only get first result
+                            val firstResult = firstResult.first()
+                            lat1 = firstResult.latitude
+                            lon1 = firstResult.longitude
+                            Log.e("TransitAcivity", "First Result: $lat1, $lon1")
+                        }
+                        if (secondResult.isNotEmpty()) {
+                            //only get first result
+                            val secondResult = secondResult.first()
+                            lat2 = secondResult.latitude
+                            lon2 = secondResult.longitude
+                            Log.e("TransitAcivity", "Second Result: $lat2, $lon2")
+                        }
+                        intent.putExtra("lat1", lat1.toString())
+                        intent.putExtra("lon1", lon1.toString())
+                        intent.putExtra("lat2", lat2.toString())
+                        intent.putExtra("lon2", lon2.toString())
+                        startActivity(intent)
+                    }
+                }
+            }
         }
 
         origin.addTextChangedListener(textWatcher)
@@ -121,7 +199,20 @@ class TransitActivity: AppCompatActivity() {
             val enableButton = inputtedOrigin.isNotEmpty() && inputtedDestination.isNotEmpty()
 
             search.setEnabled(enableButton)
+            map.setEnabled(enableButton)
         }
 
+    }
+    //used Android Developer Guide as a reference for this code: https://developer.android.com/guide/topics/ui/controls/checkbox
+    fun onCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+
+            when (view.id) {
+                R.id.checkBox -> {
+                    checkBoxBoolean = checked
+                }
+            }
+        }
     }
 }

@@ -83,8 +83,6 @@ class LoginActivity : AppCompatActivity() {
 
                 if(task.isSuccessful)
                 {
-                    //TODO- add analytics
-                    //firebaseAnalytics.logEvent("login_success", null)
 
                     val currentUser = firebaseAuth.currentUser!!
                     val currentEmail = currentUser.email
@@ -99,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 else{
-                    //firebaseAnalytics.logEvent("login_failed", null)
 
                     val exception = task.exception
                     Toast.makeText(this, "Failed to login $exception", Toast.LENGTH_LONG).show()
