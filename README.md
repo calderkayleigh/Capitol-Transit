@@ -1,7 +1,7 @@
 **!!PLEASE READ THE GETTING STARTED SECTION BELOW!!**
 
 # CSCI 4237 - Project 2 - BYOI
-Note: you can only do single line travel in the current code. Working on developing a shortest path algorithm to determine how to get from line to line. 
+Note: you can only do single line travel in the current code. Working on developing a shortest path algorithm to determine how to get from line to line. This algoritnm is shown in the java file. 
 
 **Some Sample Data to Use:** 
 Start Address: 1221 S Eads Street Arlington, VA 22202 
