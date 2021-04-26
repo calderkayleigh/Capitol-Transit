@@ -27,6 +27,7 @@ class TransitActivity: AppCompatActivity() {
     private lateinit var checkBox: CheckBox
     private var checkBoxBoolean by Delegates.notNull<Boolean>()
     private lateinit var map: Button
+    private lateinit var trainTimes: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +47,12 @@ class TransitActivity: AppCompatActivity() {
         favorites = findViewById(R.id.favoritesButton)
         checkBox = findViewById(R.id.checkBox)
         map = findViewById(R.id.mapButton)
+        trainTimes= findViewById(R.id.viewTrainTimes)
 
         search.isEnabled = false
         map.isEnabled = false
         checkBoxBoolean = false
+        trainTimes.isEnabled = false
 
 
         //create on click listener for the search button
@@ -121,6 +124,47 @@ class TransitActivity: AppCompatActivity() {
         favorites.setOnClickListener {
             val intent = Intent(this, FavoritesActivity::class.java)
             startActivity(intent)
+        }
+
+        trainTimes.setOnClickListener {
+
+            //get user inputs
+            val locationName: String = origin.text.toString()
+
+            if(locationName.isNotEmpty())
+            {
+                val intent = Intent(this, TrainTimesActivity::class.java)
+                doAsync {
+
+                    //create geocoder
+                    val geocoder: Geocoder = Geocoder(this@TransitActivity)
+
+                    //get lat and long
+                    val firstResult: List<Address> = try {
+                        geocoder.getFromLocationName(
+                                locationName,
+                                10
+                        )
+                    } catch (e: Exception) {
+                        Log.e("TransitActivity", "Geocoder has Failed for first address", e)
+                        listOf<Address>()
+                    }
+
+                    //move to UI thread
+                    runOnUiThread {
+                        if (firstResult.isNotEmpty()) {
+                            //only get first result
+                            val firstResult = firstResult.first()
+                            lat1 = firstResult.latitude
+                            lon1 = firstResult.longitude
+                            Log.e("TransitAcivity", "First Result: $lat1, $lon1")
+                        }
+                        intent.putExtra("lat1", lat1.toString())
+                        intent.putExtra("lon1", lon1.toString())
+                        startActivity(intent)
+                    }
+                }
+            }
         }
 
         map.setOnClickListener {
@@ -197,9 +241,11 @@ class TransitActivity: AppCompatActivity() {
             val inputtedOrigin: String = origin.text.toString()
             val inputtedDestination: String = destination.text.toString()
             val enableButton = inputtedOrigin.isNotEmpty() && inputtedDestination.isNotEmpty()
+            val enableTrainTimes = inputtedOrigin.isNotEmpty()
 
             search.setEnabled(enableButton)
             map.setEnabled(enableButton)
+            trainTimes.setEnabled(enableTrainTimes)
         }
 
     }

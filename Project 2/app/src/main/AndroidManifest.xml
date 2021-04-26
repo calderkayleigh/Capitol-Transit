@@ -43,6 +43,7 @@
         <activity android:name=".TransitActivity" />
         <activity android:name=".RoutesActivity" />
         <activity android:name=".FavoritesActivity" />
+        <activity android:name=".TrainTimesActivity"/>
     </application>
 
 </manifest>

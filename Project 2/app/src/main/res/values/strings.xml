@@ -14,7 +14,7 @@
     <string name="root">Route:</string>
     <string name="searchRoutes">Search Routes</string>
     <string name="viewFavorites">View Favorite Routes</string>
-    <string name="metrorail">MetroRail</string>
+    <string name="metrorail" translatable="false">MetroRail</string>
     <string name="originStation">Origin Station:</string>
     <string name="destinationStation">Destination Station:</string>
     <string name="cost">Cost: </string>
@@ -26,5 +26,15 @@
     <string name="to">to</string>
     <string name="title_activity_maps">Map</string>
     <string name="mapRoute">View Route on Map</string>
+    <string name="apiKey" translatable="false">bd86072718514a4ab76b0efce909c43e</string>
+    <string name="viewMetroRailTrains">View Train Times</string>
+    <string name="originLayout">Origin</string>
+    <string name="destinationLayout">Destination</string>
+    <string name="trainsIn">Trains in</string>
+    <string name="in">in</string>
+    <string name="minutes">minutes</string>
+    <string name="insertDescription">Insert description</string>
+    <string name="line">Line:</string>
+    <string name="arrivingAt">Arriving at</string>
 
 </resources>

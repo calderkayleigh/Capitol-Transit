@@ -1,12 +1,10 @@
 package com.example.project2
 
-import android.content.Context
 import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import org.jetbrains.anko.doAsync
 import org.json.JSONObject
 
 class StationEntranceManager {
@@ -244,6 +242,99 @@ class StationEntranceManager {
         Log.e("StationNameManager", "Station not found!!")
         return "Error: Station not found"
     }
+    fun retrieveMetroDelays(): String {
 
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+        val delayList = mutableListOf<String>()
+        var delayListString = ""
 
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Incidents.svc/json/Incidents")
+                .header("api_key", "$apiKey")
+                .build()
+
+        val response: Response = okHttpClient.newCall(request).execute()
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "delay API response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val incidents = json.getJSONArray("Incidents")
+            var delay = ""
+
+            // contents to list
+            for (i in 0 until incidents.length()) {
+                val curr = incidents.getJSONObject(i)
+                delay = curr.getString("Description")
+
+                delayList.add(delay+"\n\n")
+                delayListString = delayList.joinToString()
+            }
+        }
+        else{
+            Log.e("StationNameManager", "No Delays Found")
+        }
+        return delayListString
+    }
+
+    fun retrieveTrainTimes(originStation: String): List<TrainTime> {
+
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+        val trainList = mutableListOf<TrainTime>()
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/$originStation")
+                .header("api_key", "$apiKey")
+                .build()
+
+        val response: Response = okHttpClient.newCall(request).execute()
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val trains = json.getJSONArray("Trains")
+
+            // contents to list
+            for (i in 0 until trains.length()) {
+                val curr = trains.getJSONObject(i)
+                val lineString = curr.getString("Line")
+                var minutesString = curr.getString("Min")
+                val destString = curr.getString("DestinationName")
+                val orgString = curr.getString("LocationName")
+
+                if(minutesString != "ARR")
+                {
+                    minutesString += " minutes"
+                }
+
+                val trainTime = TrainTime(
+                        originStation = orgString,
+                        destination = destString,
+                        line = lineString,
+                        time = minutesString
+                )
+
+                trainList.add(trainTime)
+            }
+        }
+        else{
+            Log.e("StationNameManager", "No Trains Found")
+        }
+        return trainList
+    }
 }

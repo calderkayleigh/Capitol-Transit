@@ -24,7 +24,7 @@ class RoutesActivity: AppCompatActivity() {
     private lateinit var cost: TextView
     private lateinit var duration: TextView
     private lateinit var favorites: Button
-    //private lateinit var delays: TextView
+    private lateinit var delays: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +56,7 @@ class RoutesActivity: AppCompatActivity() {
         var destName = ""
         var costString = ""
         var durationString = ""
+        var delayString = ""
 
         val checkBoxBoolean = intent.getBooleanExtra("checkBoxBoolean", false)
 
@@ -68,6 +69,7 @@ class RoutesActivity: AppCompatActivity() {
         cost = findViewById(R.id.costMetroInput)
         duration = findViewById(R.id.expectedDurationMetroInput)
         favorites = findViewById(R.id.addToFavorites)
+        delays = findViewById(R.id.delayMetroInput)
 
         doAsync {
             // Geocoding should be done on a background thread - it involves networking
@@ -87,6 +89,7 @@ class RoutesActivity: AppCompatActivity() {
 
             costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
             durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
+            delayString = stationManager.retrieveMetroDelays()
 
             val findRoute = connectionAlgorithm()
             val originStationName = stationManager.retrieveStationName(originStation)
@@ -102,6 +105,7 @@ class RoutesActivity: AppCompatActivity() {
                     destination.text = destinationStationName
                     cost.text = costString + " US Dollars"
                     duration.text = durationString + " Minutes"
+                    delays.text = delayString
 
 
                     Log.e("RoutesActivity", "Origin passed: $originStationName, Destination passed: $destinationStationName,")

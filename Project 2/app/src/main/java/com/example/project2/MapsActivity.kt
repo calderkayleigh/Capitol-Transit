@@ -63,9 +63,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val location1 = LatLng(lat1, lon1)
         val location2 = LatLng(lat2, lon2)
 
-        title = "Origin Station to Destination Station"
-        mMap.addMarker(MarkerOptions().position(location1).title("Origin Station"))
-        mMap.addMarker(MarkerOptions().position(location2).title("Destination Station"))
+        title = "Origin Station to Destination"
+        mMap.addMarker(MarkerOptions().position(location1).title("Origin"))
+        mMap.addMarker(MarkerOptions().position(location2).title("Destination"))
 
         val latLngBounds = LatLngBounds.Builder()
             .include(location1)

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -22,10 +22,10 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/originFavorite"
+                android:id="@+id/originStation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Origin"
+                android:text="@string/originLayout"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/destinationFavorite"
+                android:id="@+id/destinationStation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/to"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Destination" />
+                tools:text="@string/destinationLayout" />
 
             <TextView
                 android:id="@+id/favoriteDescription"
@@ -50,9 +50,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/originFavorite"
-                app:layout_constraintTop_toBottomOf="@id/destinationFavorite"
-                tools:text="insert description" />
+                app:layout_constraintStart_toStartOf="@id/originStation"
+                app:layout_constraintTop_toBottomOf="@id/destinationStation"
+                tools:text="@string/insertDescription" />
 
             <TextView
                 android:id="@+id/to"
@@ -61,7 +61,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/to"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/originFavorite"
+                app:layout_constraintStart_toEndOf="@+id/originStation"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
