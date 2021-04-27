@@ -29,6 +29,7 @@ class RoutesActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val apiKey = getString(R.string.wmata_api_key)
 
         val intent = getIntent()
 
@@ -81,30 +82,30 @@ class RoutesActivity: AppCompatActivity() {
             // "catch" clauses need to yield a valid value to assign.
 
 
-            originStation = stationManager.retrieveStation(lat1, lon1)
+            originStation = stationManager.retrieveStation(lat1, lon1, apiKey)
             Log.e("RoutesActivity", "$originStation")
 
-            destinationStation = stationManager.retrieveStation(lat2, lon2)
+            destinationStation = stationManager.retrieveStation(lat2, lon2, apiKey)
             Log.e("RoutesActivity", "$destinationStation")
 
-            costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
-            durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
-            delayString = stationManager.retrieveMetroDelays()
+            costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean, apiKey)
+            durationString = stationManager.retrieveMetroDuration(originStation, destinationStation, apiKey)
+            delayString = stationManager.retrieveMetroDelays(apiKey)
 
             val findRoute = connectionAlgorithm()
-            val originStationName = stationManager.retrieveStationName(originStation)
-            val destinationStationName = stationManager.retrieveStationName(destinationStation)
+            val originStationName = stationManager.retrieveStationName(originStation, apiKey)
+            val destinationStationName = stationManager.retrieveStationName(destinationStation, apiKey)
 
             //from origin to station 1
             //from station 2 to destination
             // call function pass in 1) origin lat/lon and destination lat/lon
-            val originRailStationLat = stationManager.retrieveStationLat(lat1, lon1)
-            val originRailStationLon = stationManager.retrieveStationLon(lat1, lon1)
-            val originStationBusRoute = determineBusRoute(stationManager, lat1, lon1, originRailStationLat, originRailStationLon)
+            val originRailStationLat = stationManager.retrieveStationLat(lat1, lon1, apiKey)
+            val originRailStationLon = stationManager.retrieveStationLon(lat1, lon1, apiKey)
+            val originStationBusRoute = determineBusRoute(stationManager, lat1, lon1, originRailStationLat, originRailStationLon, apiKey)
 
-            val destRailStationLat = stationManager.retrieveStationLat(lat2, lon2)
-            val destRailStationLon = stationManager.retrieveStationLon(lat2, lon2)
-            val destStationBusRoute = determineBusRoute(stationManager, destRailStationLat, destRailStationLon, lat2, lon2)
+            val destRailStationLat = stationManager.retrieveStationLat(lat2, lon2, apiKey)
+            val destRailStationLon = stationManager.retrieveStationLon(lat2, lon2, apiKey)
+            val destStationBusRoute = determineBusRoute(stationManager, destRailStationLat, destRailStationLon, lat2, lon2, apiKey)
 
             // Move back to the UI Thread now that we have some results to show.
             // The UI can only be updated from the UI Thread.
@@ -133,7 +134,8 @@ class RoutesActivity: AppCompatActivity() {
                         val root: List<String> = try {
                             stationManager.retrieveRoute(
                                     originStation,
-                                    destinationStation
+                                    destinationStation,
+                                    apiKey
                             )
                         } catch (e: Exception) {
                             Log.e("Routes Activity", "Path api failed", e)
@@ -221,16 +223,16 @@ class RoutesActivity: AppCompatActivity() {
             }
         }
     }
-    fun determineBusRoute(stationManager: StationEntranceManager, originLat: Double, originLon: Double, destLat: Double, destLon: Double): String{
+    fun determineBusRoute(stationManager: StationEntranceManager, originLat: Double, originLon: Double, destLat: Double, destLon: Double, apiKey: String): String{
         //get bus station and routes for origin
-        val originBusStation = stationManager.retrieveBusStop(originLat, originLon)
-        val originBusStationLines = stationManager.retrieveBusLinesAtStop(originLat, originLon).split(";")
+        val originBusStation = stationManager.retrieveBusStop(originLat, originLon, apiKey)
+        val originBusStationLines = stationManager.retrieveBusLinesAtStop(originLat, originLon, apiKey).split(";")
 
         Log.e("StationEntranceManager", "originBusStation: $originBusStation")
         Log.e("StationEntranceManager", "originBusLines: $originBusStationLines")
         //get bus station nd routes for destnation
-        val destBusStation = stationManager.retrieveBusStop(destLat, destLon)
-        val destBusStationLines = stationManager.retrieveBusLinesAtStop(destLat, destLon).split(";")
+        val destBusStation = stationManager.retrieveBusStop(destLat, destLon, apiKey)
+        val destBusStationLines = stationManager.retrieveBusLinesAtStop(destLat, destLon, apiKey).split(";")
 
         Log.e("StationEntranceManager", "destBusStation: $destBusStation")
         Log.e("StationEntranceManager", "destBusLines: $destBusStationLines")

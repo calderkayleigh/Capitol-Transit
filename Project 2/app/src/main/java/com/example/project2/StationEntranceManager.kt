@@ -23,12 +23,9 @@ class StationEntranceManager {
         builder.addInterceptor(logging)
 
         okHttpClient = builder.build()
-    }
-
-    fun retrieveStation(Lat: Double, Lon: Double): String{
+    } fun retrieveStation(Lat: Double, Lon: Double, apiKey: String): String{
 
         val Radius = 10000
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
 
         Log.e("StationEntranceManager", "before request")
 
@@ -67,9 +64,7 @@ class StationEntranceManager {
         }
         Log.e("StationEntranceManager", "Station not found!!")
         return "Error: Station not found"
-    }
-
-    fun retrieveStationLon(Lat: Double, Lon: Double): Double{
+    } fun retrieveStationLon(Lat: Double, Lon: Double, apiKey: String): Double{
 
         val Radius = 10000
         val apiKey = "bd86072718514a4ab76b0efce909c43e"
@@ -111,13 +106,9 @@ class StationEntranceManager {
         }
         Log.e("StationEntranceManager", "Station not found!!")
         return 0.0
-    }
-
-    fun retrieveStationLat(Lat: Double, Lon: Double): Double{
+    } fun retrieveStationLat(Lat: Double, Lon: Double, apiKey: String): Double{
 
         val Radius = 10000
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
-
         Log.e("StationEntranceManager", "before request")
 
 
@@ -155,12 +146,7 @@ class StationEntranceManager {
         }
         Log.e("StationEntranceManager", "Station not found!!")
         return 0.0
-    }
-    fun retrieveRoute(origin: String, destination: String): List<String> {
-
-
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
-
+    } fun retrieveRoute(origin: String, destination: String, apiKey: String): List<String> {
         val routesList = mutableListOf<String>()
 
         // API declaration
@@ -197,10 +183,7 @@ class StationEntranceManager {
         }
 
         return routesList
-    }
-
-    fun retrieveMetroCost(origin: String, destination: String, checkBoxBoolean: Boolean): String {
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+    } fun retrieveMetroCost(origin: String, destination: String, checkBoxBoolean: Boolean, apiKey: String): String {
         var timeOfDay = ""
 
         if(checkBoxBoolean == false)
@@ -252,10 +235,7 @@ class StationEntranceManager {
             Log.e("StationEntranceManager", "Cost response was  not successful")
         }
         return "Error: Cost not found"
-    }
-
-    fun retrieveMetroDuration(origin: String, destination: String): String{
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+    } fun retrieveMetroDuration(origin: String, destination: String, apiKey: String): String{
         var duration = 0.0
 
         // API declaration
@@ -289,11 +269,7 @@ class StationEntranceManager {
             Log.e("StationEntranceManager", "Duration response was  not successful")
         }
         return "Error: Duration not found"
-    }
-    fun retrieveStationName(stationCode: String): String{
-
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
-
+    } fun retrieveStationName(stationCode: String, apiKey: String): String{
         Log.e("StationEntranceManager", "before request")
 
 
@@ -329,10 +305,7 @@ class StationEntranceManager {
         }
         Log.e("StationNameManager", "Station not found!!")
         return "Error: Station not found"
-    }
-    fun retrieveMetroDelays(): String {
-
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+    } fun retrieveMetroDelays(apiKey: String): String {
         val delayList = mutableListOf<String>()
         var delayListString = ""
 
@@ -371,11 +344,7 @@ class StationEntranceManager {
             Log.e("StationNameManager", "No Delays Found")
         }
         return delayListString
-    }
-
-    fun retrieveTrainTimes(originStation: String): List<TrainTime> {
-
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+    } fun retrieveTrainTimes(originStation: String, apiKey: String): List<TrainTime> {
         val trainList = mutableListOf<TrainTime>()
 
         // API declaration
@@ -422,20 +391,18 @@ class StationEntranceManager {
             Log.e("StationNameManager", "No Trains Found")
         }
         return trainList
-    } fun retrieveBusStop(Lat: Double, Lon: Double): String{
-
+    } fun retrieveBusStop(Lat: Double, Lon: Double, apiKey: String): String {
         val Radius = 10000
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
 
         Log.e("StationEntranceManager", "before request")
 
 
         // API declaration
         val request = Request.Builder()
-                .get()
-                .url("https://api.wmata.com/Bus.svc/json/jStops?Lat=$Lat&Lon=$Lon&Radius=$Radius\n")
-                .header("api_key", "$apiKey")
-                .build()
+            .get()
+            .url("https://api.wmata.com/Bus.svc/json/jStops?Lat=$Lat&Lon=$Lon&Radius=$Radius\n")
+            .header("api_key", "$apiKey")
+            .build()
         Log.e("StationEntranceManager", "request executed")
 
         val response: Response = okHttpClient.newCall(request).execute()
@@ -455,7 +422,7 @@ class StationEntranceManager {
             val stops = json.getJSONArray("Stops")
 
             // contents to list
-            if (stops.length() != 0){
+            if (stops.length() != 0) {
                 val curr = stops.getJSONObject(0)
                 station = curr.getString("Name")
                 Log.e("StationEntranceManager", "Station: $station")
@@ -464,12 +431,8 @@ class StationEntranceManager {
         }
         Log.e("StationEntranceManager", "Station not found!!")
         return "Error: Station not found"
-    }
-    fun retrieveBusLinesAtStop(Lat: Double, Lon: Double): String{
-
+    } fun retrieveBusLinesAtStop(Lat: Double, Lon: Double, apiKey: String): String{
         val Radius = 10000
-        val apiKey = "bd86072718514a4ab76b0efce909c43e"
-
         Log.e("StationEntranceManager", "before request")
 
 
