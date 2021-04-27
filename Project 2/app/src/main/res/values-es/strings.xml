@@ -35,4 +35,7 @@
     <string name="insertDescription">insertar descripción</string>
     <string name="line">línea</string>
     <string name="trainsIn">Trenes en</string>
+    <string name="noBusRoute">No se encontraron rutas de autobús.</string>
+    <string name="takeBusLine">Tomar la linea de bus</string>
+    <string name="from">de</string>
 </resources>

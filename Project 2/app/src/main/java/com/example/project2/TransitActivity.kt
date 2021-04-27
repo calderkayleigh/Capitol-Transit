@@ -77,7 +77,7 @@ class TransitActivity: AppCompatActivity() {
                                 10
                         )
                     } catch (e: Exception) {
-                        Log.e("TransitActivity", "Geocoder has Failed for first address", e)
+                        Log.e("TransitActivity", "Geocoder has Failed for first address $locationName", e)
                         listOf<Address>()
                     }
 
@@ -88,7 +88,7 @@ class TransitActivity: AppCompatActivity() {
                                 10
                         )
                     } catch (e: Exception) {
-                        Log.e("TransitActivity", "Geocoder has Failed for second address", e)
+                        Log.e("TransitActivity", "Geocoder has Failed for second address $locationName2", e)
                         listOf<Address>()
                     }
 

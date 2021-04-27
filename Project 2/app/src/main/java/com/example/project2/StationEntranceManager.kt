@@ -68,6 +68,94 @@ class StationEntranceManager {
         Log.e("StationEntranceManager", "Station not found!!")
         return "Error: Station not found"
     }
+
+    fun retrieveStationLon(Lat: Double, Lon: Double): Double{
+
+        val Radius = 10000
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=$Lat&Lon=$Lon&Radius=$Radius")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
+
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntranceManager", "request executed")
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val entrances = json.getJSONArray("Entrances")
+
+            // contents to list
+            if (entrances.length() != 0){
+                val curr = entrances.getJSONObject(0)
+                val lon = curr.getDouble("Lon")
+                Log.e("StationEntranceManager", "Station: $station")
+                return lon
+            }
+        }
+        Log.e("StationEntranceManager", "Station not found!!")
+        return 0.0
+    }
+
+    fun retrieveStationLat(Lat: Double, Lon: Double): Double{
+
+        val Radius = 10000
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=$Lat&Lon=$Lon&Radius=$Radius")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
+
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntranceManager", "request executed")
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val entrances = json.getJSONArray("Entrances")
+
+            // contents to list
+            if (entrances.length() != 0){
+                val curr = entrances.getJSONObject(0)
+                val lat = curr.getDouble("Lat")
+                Log.e("StationEntranceManager", "Station: $station")
+                return lat
+            }
+        }
+        Log.e("StationEntranceManager", "Station not found!!")
+        return 0.0
+    }
     fun retrieveRoute(origin: String, destination: String): List<String> {
 
 
@@ -317,8 +405,7 @@ class StationEntranceManager {
                 val destString = curr.getString("DestinationName")
                 val orgString = curr.getString("LocationName")
 
-                if(minutesString != "ARR")
-                {
+                if (minutesString != "ARR") {
                     minutesString += " minutes"
                 }
 
@@ -331,10 +418,98 @@ class StationEntranceManager {
 
                 trainList.add(trainTime)
             }
-        }
-        else{
+        } else {
             Log.e("StationNameManager", "No Trains Found")
         }
         return trainList
+    } fun retrieveBusStop(Lat: Double, Lon: Double): String{
+
+        val Radius = 10000
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Bus.svc/json/jStops?Lat=$Lat&Lon=$Lon&Radius=$Radius\n")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
+
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntranceManager", "request executed")
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val stops = json.getJSONArray("Stops")
+
+            // contents to list
+            if (stops.length() != 0){
+                val curr = stops.getJSONObject(0)
+                station = curr.getString("Name")
+                Log.e("StationEntranceManager", "Station: $station")
+                return station
+            }
+        }
+        Log.e("StationEntranceManager", "Station not found!!")
+        return "Error: Station not found"
+    }
+    fun retrieveBusLinesAtStop(Lat: Double, Lon: Double): String{
+
+        val Radius = 10000
+        val apiKey = "bd86072718514a4ab76b0efce909c43e"
+
+        Log.e("StationEntranceManager", "before request")
+
+
+        // API declaration
+        val request = Request.Builder()
+                .get()
+                .url("https://api.wmata.com/Bus.svc/json/jStops?Lat=$Lat&Lon=$Lon&Radius=$Radius\n")
+                .header("api_key", "$apiKey")
+                .build()
+        Log.e("StationEntranceManager", "request executed")
+
+        val response: Response = okHttpClient.newCall(request).execute()
+        Log.e("StationEntranceManager", "request executed")
+
+        // Get the JSON body
+        val responseBody: String? = response.body?.string()
+        Log.e("StationEntranceManager", "json body")
+
+        // If the response is successful & body is not Null or blank, parse
+        if (response.isSuccessful && !responseBody.isNullOrBlank()) {
+
+            Log.e("StationEntranceManager", "response successful")
+
+            // set up for parsing
+            val json = JSONObject(responseBody)
+            val stops = json.getJSONArray("Stops")
+
+            // contents to list
+            if (stops.length() != 0){
+                val curr = stops.getJSONObject(0)
+                var lines = curr.getJSONArray("Routes")
+                var allLines = ""
+                for (i in 1..lines.length()){
+                    allLines = allLines + lines[i-1] + ";"
+                }
+                Log.e("StationEntranceManager", "Station: $station")
+                return allLines
+            }
+        }
+        Log.e("StationEntranceManager", "Station not found!!")
+        return "Error: Station not found"
     }
 }

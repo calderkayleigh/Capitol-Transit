@@ -18,7 +18,7 @@
     <string name="originStation">Origin Station:</string>
     <string name="destinationStation">Destination Station:</string>
     <string name="cost">Cost: </string>
-    <string name="duration">Expected Duration of Travel: </string>
+    <string name="duration">Expected Duration of Travel (without buses): </string>
     <string name="checkbox">I am travelling during peak hours</string>
     <string name="delays">Delays: </string>
     <string name="trainsArriving">Trains Arriving In: </string>
@@ -36,5 +36,10 @@
     <string name="insertDescription">Insert description</string>
     <string name="line">Line:</string>
     <string name="arrivingAt">Arriving at</string>
+    <string name="noBusRoute">No bus routes found.</string>
+    <string name="takeBusLine">Take bus line</string>
+    <string name="from">from</string>
+
+
 
 </resources>

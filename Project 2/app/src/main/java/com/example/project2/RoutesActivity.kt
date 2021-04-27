@@ -95,6 +95,16 @@ class RoutesActivity: AppCompatActivity() {
             val originStationName = stationManager.retrieveStationName(originStation)
             val destinationStationName = stationManager.retrieveStationName(destinationStation)
 
+            //from origin to station 1
+            //from station 2 to destination
+            // call function pass in 1) origin lat/lon and destination lat/lon
+            val originRailStationLat = stationManager.retrieveStationLat(lat1, lon1)
+            val originRailStationLon = stationManager.retrieveStationLon(lat1, lon1)
+            val originStationBusRoute = determineBusRoute(stationManager, lat1, lon1, originRailStationLat, originRailStationLon)
+
+            val destRailStationLat = stationManager.retrieveStationLat(lat2, lon2)
+            val destRailStationLon = stationManager.retrieveStationLon(lat2, lon2)
+            val destStationBusRoute = determineBusRoute(stationManager, destRailStationLat, destRailStationLon, lat2, lon2)
 
             // Move back to the UI Thread now that we have some results to show.
             // The UI can only be updated from the UI Thread.
@@ -141,10 +151,23 @@ class RoutesActivity: AppCompatActivity() {
                                 destination.text = root.last()
                                 destName = root.last()
 
-                                var theRoute = ""
+                                var costNew = costString.toDouble()
+
+                                var theRoute = "Metro Rail Stations:\n"
                                 for (station in root)
                                     theRoute = theRoute + station + "\n"
+                                if (originStationBusRoute != getString(R.string.noBusRoute)){
+                                    theRoute = originStationBusRoute + "\n \n" + theRoute
+                                    costNew = costNew + 2
+                                }
+                                if (destStationBusRoute != getString(R.string.noBusRoute)){
+                                    theRoute =  theRoute + "\n" + destStationBusRoute + "\n"
+                                    costNew = costNew + 2
+                                }
+                                //theRoute = theRoute + originStationBusRoute + "\n"
                                 resultsText.text = theRoute
+                                cost.text = costNew.toString() + " US Dollars"
+
 
                             } else {
                                 Log.d("Routes Activity", "Path api results failed!")
@@ -197,5 +220,36 @@ class RoutesActivity: AppCompatActivity() {
                 }
             }
         }
+    }
+    fun determineBusRoute(stationManager: StationEntranceManager, originLat: Double, originLon: Double, destLat: Double, destLon: Double): String{
+        //get bus station and routes for origin
+        val originBusStation = stationManager.retrieveBusStop(originLat, originLon)
+        val originBusStationLines = stationManager.retrieveBusLinesAtStop(originLat, originLon).split(";")
+
+        Log.e("StationEntranceManager", "originBusStation: $originBusStation")
+        Log.e("StationEntranceManager", "originBusLines: $originBusStationLines")
+        //get bus station nd routes for destnation
+        val destBusStation = stationManager.retrieveBusStop(destLat, destLon)
+        val destBusStationLines = stationManager.retrieveBusLinesAtStop(destLat, destLon).split(";")
+
+        Log.e("StationEntranceManager", "destBusStation: $destBusStation")
+        Log.e("StationEntranceManager", "destBusLines: $destBusStationLines")
+        //check if
+        // either is empty, is yes then return "No bus connection"
+        // both have the same line, if not return "No bus connection"
+        //      if yes, return take bus line X from origin station to destination station
+        if ((originBusStationLines.size == 0) or (destBusStationLines.size == 0)){
+
+            return getString(R.string.noBusRoute)
+        } else {
+            for (originLine in originBusStationLines) {
+                for (destLine in destBusStationLines) {
+                    if ((originLine == destLine) and (originLine != "")) {
+                        return getString(R.string.takeBusLine) + " " + originLine + "\n" + getString(R.string.from) + " " + originBusStation + "\n" + getString(R.string.to) + " " + destBusStation
+                    }
+                }
+            }
+        }
+        return getString(R.string.noBusRoute)
     }
 }
