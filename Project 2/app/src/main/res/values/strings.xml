@@ -12,7 +12,7 @@
     <string name="origin">Origin Address</string>
     <string name="destination">Destination Address</string>
     <string name="root">Route:</string>
-    <string name="searchRoutes">Search Routes</string>
+    <string name="searchRoutes">Search Rail Routes</string>
     <string name="viewFavorites">View Favorite Routes</string>
     <string name="metrorail" translatable="false">MetroRail</string>
     <string name="originStation">Origin Station:</string>
@@ -26,7 +26,6 @@
     <string name="to">to</string>
     <string name="title_activity_maps">Map</string>
     <string name="mapRoute">View Route on Map</string>
-    <string name="apiKey" translatable="false">bd86072718514a4ab76b0efce909c43e</string>
     <string name="viewMetroRailTrains">View Train Times</string>
     <string name="originLayout">Origin</string>
     <string name="destinationLayout">Destination</string>
@@ -39,6 +38,8 @@
     <string name="noBusRoute">No bus routes found.</string>
     <string name="takeBusLine">Take bus line</string>
     <string name="from">from</string>
+    <string name="metrobus">MetroBus</string>
+    <string name="searchBusRoute">SEARCH BUS ROUTES</string>
 
 
 

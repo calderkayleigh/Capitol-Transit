@@ -6,6 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/searchBusButton"
+        android:layout_width="327dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/searchBusRoute"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchRailButton" />
+
     <TextView
         android:id="@+id/transitDescription"
         android:layout_width="wrap_content"
@@ -41,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/origin" />
 
     <Button
-        android:id="@+id/searchButton"
+        android:id="@+id/searchRailButton"
         android:layout_width="327dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
@@ -49,16 +59,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
-
-    <Button
-        android:id="@+id/favoritesButton"
-        android:layout_width="327dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/viewFavorites"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewTrainTimes" />
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -75,17 +75,27 @@
         android:id="@+id/mapButton"
         android:layout_width="327dp"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/mapRoute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchButton" />
+        app:layout_constraintTop_toBottomOf="@+id/searchBusButton" />
+
+    <Button
+        android:id="@+id/favoritesButton"
+        android:layout_width="327dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/viewFavorites"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewTrainTimes" />
 
     <Button
         android:id="@+id/viewTrainTimes"
         android:layout_width="327dp"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/viewMetroRailTrains"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
