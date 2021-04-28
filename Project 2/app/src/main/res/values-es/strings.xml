@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Capitol Transit</string>
+    <string name="email">Email</string>
+    <string name="password">contraseña</string>
+    <string name="login">Acceso</string>
+    <string name="signUp">" Inscribirse"</string>
+    <string name="verifyPassword">Escriba la contraseña otra vez</string>
+    <string name="passwordDoesNotMatch">Las contraseñas no coinciden</string>
+    <string name="signUpSuccessful">El registro fue exitoso</string>
+    <string name="switchLogin">Recuerde las credenciales de inicio de sesión</string>
+    <string name="inputLocations">Ingresar direcciones de origen y destino</string>
+    <string name="origin">Dirección de origen</string>
+    <string name="destination">Dirección de destino</string>
+    <string name="root">Ruta:</string>
+    <string name="searchRoutes">Buscar rutas ferroviarias</string>
+    <string name="viewFavorites">Ver rutas favoritas</string>
+    <string name="originStation">Estación de origen:</string>
+    <string name="destinationStation">Estación de destino:</string>
+    <string name="cost">Costo:</string>
+    <string name="duration">Duración prevista del viaje:</string>
+    <string name="checkbox">" Estoy viajando durante las horas pico"</string>
+    <string name="delays">Retrasos:</string>
+    <string name="trainsArriving">Trenes que llegan a:</string>
+    <string name="addToFavorites">Agregar ruta a favoritos</string>
+    <string name="to">a</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="mapRoute">Ver ruta en el mapa</string>
+    <string name="viewMetroRailTrains">" ver horarios de trenes"</string>
+    <string name="originLayout">Origen</string>
+    <string name="destinationLayout">Destino</string>
+    <string name="arrivingAt">Llegando a</string>
+    <string name="in">en</string>
+    <string name="minutes">minutos</string>
+    <string name="insertDescription">insertar descripción</string>
+    <string name="line">línea</string>
+    <string name="trainsIn">Trenes en</string>
+    <string name="noBusRoute">No se encontraron rutas de autobús.</string>
+    <string name="takeBusLine">Tomar la linea de bus</string>
+    <string name="from">de</string>
+    <string name="metrobus">MetroBus</string>
+    <string name="searchBusRoute">Buscar rutas de bus</string>
+</resources>

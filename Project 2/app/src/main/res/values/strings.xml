@@ -12,13 +12,13 @@
     <string name="origin">Origin Address</string>
     <string name="destination">Destination Address</string>
     <string name="root">Route:</string>
-    <string name="searchRoutes">Search Routes</string>
+    <string name="searchRoutes">Search Rail Routes</string>
     <string name="viewFavorites">View Favorite Routes</string>
-    <string name="metrorail">MetroRail</string>
+    <string name="metrorail" translatable="false">MetroRail</string>
     <string name="originStation">Origin Station:</string>
     <string name="destinationStation">Destination Station:</string>
     <string name="cost">Cost: </string>
-    <string name="duration">Expected Duration of Travel: </string>
+    <string name="duration">Expected Duration of Travel (without buses): </string>
     <string name="checkbox">I am travelling during peak hours</string>
     <string name="delays">Delays: </string>
     <string name="trainsArriving">Trains Arriving In: </string>
@@ -26,5 +26,21 @@
     <string name="to">to</string>
     <string name="title_activity_maps">Map</string>
     <string name="mapRoute">View Route on Map</string>
+    <string name="viewMetroRailTrains">View Train Times</string>
+    <string name="originLayout">Origin</string>
+    <string name="destinationLayout">Destination</string>
+    <string name="trainsIn">Trains in</string>
+    <string name="in">in</string>
+    <string name="minutes">minutes</string>
+    <string name="insertDescription">Insert description</string>
+    <string name="line">Line:</string>
+    <string name="arrivingAt">Arriving at</string>
+    <string name="noBusRoute">No bus routes found.</string>
+    <string name="takeBusLine">Take bus line</string>
+    <string name="from">from</string>
+    <string name="metrobus">MetroBus</string>
+    <string name="searchBusRoute">SEARCH BUS ROUTES</string>
+
+
 
 </resources>

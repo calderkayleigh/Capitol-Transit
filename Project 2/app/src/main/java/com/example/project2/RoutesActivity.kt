@@ -24,11 +24,12 @@ class RoutesActivity: AppCompatActivity() {
     private lateinit var cost: TextView
     private lateinit var duration: TextView
     private lateinit var favorites: Button
-    //private lateinit var delays: TextView
+    private lateinit var delays: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val apiKey = getString(R.string.wmata_api_key)
 
         val intent = getIntent()
 
@@ -42,11 +43,8 @@ class RoutesActivity: AppCompatActivity() {
 
 
         lat1 = intent.getStringExtra("lat1")?.toDouble()!!
-
         lon1 = intent.getStringExtra("lon1")?.toDouble()!!
-
         lat2 = intent.getStringExtra("lat2")?.toDouble()!!
-
         lon2 = intent.getStringExtra("lon2")?.toDouble()!!
 
         Log.e("RoutesAcivity", "First Result: $lat1, $lon1")
@@ -56,6 +54,7 @@ class RoutesActivity: AppCompatActivity() {
         var destName = ""
         var costString = ""
         var durationString = ""
+        var delayString = ""
 
         val checkBoxBoolean = intent.getBooleanExtra("checkBoxBoolean", false)
 
@@ -68,6 +67,7 @@ class RoutesActivity: AppCompatActivity() {
         cost = findViewById(R.id.costMetroInput)
         duration = findViewById(R.id.expectedDurationMetroInput)
         favorites = findViewById(R.id.addToFavorites)
+        delays = findViewById(R.id.delayMetroInput)
 
         doAsync {
             // Geocoding should be done on a background thread - it involves networking
@@ -75,26 +75,19 @@ class RoutesActivity: AppCompatActivity() {
             // if done on the UI Thread and it takes too long.
             val stationManager = StationEntranceManager()
 
-            // In Kotlin, you can assign the result of a try-catch block. Both the "try" and
-            // "catch" clauses need to yield a valid value to assign.
-
-
-            originStation = stationManager.retrieveStation(lat1, lon1)
+            originStation = stationManager.retrieveStation(lat1, lon1, apiKey)
             Log.e("RoutesActivity", "$originStation")
 
-            destinationStation = stationManager.retrieveStation(lat2, lon2)
+            destinationStation = stationManager.retrieveStation(lat2, lon2, apiKey)
             Log.e("RoutesActivity", "$destinationStation")
 
-            costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean)
-            durationString = stationManager.retrieveMetroDuration(originStation, destinationStation)
+            costString = stationManager.retrieveMetroCost(originStation, destinationStation, checkBoxBoolean, apiKey)
+            durationString = stationManager.retrieveMetroDuration(originStation, destinationStation, apiKey)
+            delayString = stationManager.retrieveMetroDelays(apiKey)
 
-            val findRoute = connectionAlgorithm()
-            val originStationName = stationManager.retrieveStationName(originStation)
-            val destinationStationName = stationManager.retrieveStationName(destinationStation)
+            val originStationName = stationManager.retrieveStationName(originStation, apiKey)
+            val destinationStationName = stationManager.retrieveStationName(destinationStation, apiKey)
 
-
-            // Move back to the UI Thread now that we have some results to show.
-            // The UI can only be updated from the UI Thread.
             runOnUiThread {
 
                 if((originStationName != "Error: Station not found") && (destinationStation != "Error: Station not found")) {
@@ -102,6 +95,7 @@ class RoutesActivity: AppCompatActivity() {
                     destination.text = destinationStationName
                     cost.text = costString + " US Dollars"
                     duration.text = durationString + " Minutes"
+                    delays.text = delayString
 
 
                     Log.e("RoutesActivity", "Origin passed: $originStationName, Destination passed: $destinationStationName,")
@@ -119,7 +113,8 @@ class RoutesActivity: AppCompatActivity() {
                         val root: List<String> = try {
                             stationManager.retrieveRoute(
                                     originStation,
-                                    destinationStation
+                                    destinationStation,
+                                    apiKey
                             )
                         } catch (e: Exception) {
                             Log.e("Routes Activity", "Path api failed", e)
@@ -137,9 +132,10 @@ class RoutesActivity: AppCompatActivity() {
                                 destination.text = root.last()
                                 destName = root.last()
 
-                                var theRoute = ""
+                                var theRoute = "Metro Rail Stations:\n"
                                 for (station in root)
                                     theRoute = theRoute + station + "\n"
+                                //theRoute = theRoute + originStationBusRoute + "\n"
                                 resultsText.text = theRoute
 
                             } else {
