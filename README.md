@@ -1,5 +1,8 @@
 **!!PLEASE READ THE GETTING STARTED SECTION BELOW!!**
 
+# Capitol Transit
+Limitations: users cannot connect between different metro lines (ie taking a blue then transfering to red at a station). We developed a prototype algorithm with the help of OpenStack which worked, but hardcoding each station/its connections proved to be very time consuming. Additionally, buses are seperate from the rail page.
+
 # CSCI 4237 - Project 2 - BYOI
 Note: you can only do single line travel in the current code. Working on developing a shortest path algorithm to determine how to get from line to line. This algoritnm is shown in the java file. 
 
